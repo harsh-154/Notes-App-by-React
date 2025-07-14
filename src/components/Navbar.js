@@ -1,86 +1,86 @@
-import React, { useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { NavLink } from "react-router-dom";
-function Navbar() {
-  let navigate = useNavigate();
-  let location = useLocation();
-  useEffect(() => {
-    // Google Analytics
-    console.log(location.pathname);
-  }, [location]);
+import React from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
+const Navbar = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isLoggedIn = !!localStorage.getItem('token');
+
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
+    localStorage.removeItem('token');
+    navigate('/login');
   };
+
   return (
-    <>
-      <nav className="navbar navbar-expand-lg bg-dark fixed-top">
-        <div className="container-fluid">
-          <Link className="text-white" to="/home">
-            INotebook
-          </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="/navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <NavLink
-                  className={({ isActive }) =>
-                    `nav-link text-light ${isActive ? "active" : ""}`
-                  }
-                  to="/docs"
-                >
-                  Documents
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink
-                  className={({ isActive }) =>
-                    `nav-link text-light ${isActive ? "active" : ""}`
-                  }
-                  to="/about"
-                >
-                  About Us
-                </NavLink>
-              </li>
-            </ul>
-            {/* <form className="d-flex" role="search">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              /> */}
-            {localStorage.getItem("token") ? ( // This ensures it only runs if a valid token exists
-              <button className="btn btn-primary" onClick={handleLogout}>
-                Log Out
-              </button>
-            ) : (
+    <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+      <div className="container-fluid">
+        <Link className="navbar-brand fw-bold d-flex align-items-center" to="/docs">
+          <i className="fa-solid fa-book-open-reader me-2"></i> iNotebook
+        </Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+            {isLoggedIn && (
               <>
-                <Link className="mx-2 btn btn-primary" to="/login">
-                  Login
-                </Link>
-                <Link className="btn btn-primary" to="/signup">
-                  Sign Up
-                </Link>
+                <li className="nav-item">
+                  <Link
+                    className={`nav-link${location.pathname === '/docs' ? ' active' : ''}`}
+                    to="/docs"
+                  >
+                    Notes
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    className={`nav-link${location.pathname === '/bookmarks' ? ' active' : ''}`}
+                    to="/bookmarks"
+                  >
+                    Bookmarks
+                  </Link>
+                </li>
               </>
             )}
-
-            {/* </form> */}
-          </div>
+            {isLoggedIn ? (
+              <li className="nav-item">
+                <button className="btn btn-light ms-2" onClick={handleLogout}>
+                  Logout
+                </button>
+              </li>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <Link
+                    className={`nav-link${location.pathname === '/login' ? ' active' : ''}`}
+                    to="/login"
+                  >
+                    Login
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    className={`nav-link${location.pathname === '/signup' ? ' active' : ''}`}
+                    to="/signup"
+                  >
+                    Sign Up
+                  </Link>
+                </li>
+              </>
+            )}
+          </ul>
         </div>
-      </nav>
-    </>
+      </div>
+    </nav>
   );
-}
+};
 
 export default Navbar;

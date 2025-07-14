@@ -1,7 +1,7 @@
-const mongoose=require('mongoose');
-const mongoURI='mongodb+srv://23ucs585:MongoDB@2005@cluster.lpttc7q.mongodb.net/?retryWrites=true&w=majority&appName=Cluster';
-const connectToMongo=()=>{
-    mongoose.connect(mongoURI);
-    console.log("connected");
-}
-module.exports=connectToMongo;
+const mongoose = require('mongoose');
+const mongoURI = 'mongodb://localhost:27017/inotebook?tls=false&directConnection=true';
+const connectToMongo = () => {
+    mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+    console.log('Connected to MongoDB');
+};
+module.exports = connectToMongo;

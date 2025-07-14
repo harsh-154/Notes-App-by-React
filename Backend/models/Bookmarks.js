@@ -1,23 +1,23 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const notesSchema = new Schema({
+const bookmarksSchema = new Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required: true
     },
-    title: {
+    url: {
         type: String,
-        required: true,
-        minLength: 3
+        required: true
+    },
+    title: {
+        type: String
     },
     description: {
-        type: String,
-        required: true,
-        minLength: 5
+        type: String
     },
     tag: {
-        type: String,
+        type: String
     },
     favorite: {
         type: Boolean,
@@ -28,5 +28,5 @@ const notesSchema = new Schema({
         default: Date.now
     }
 });
-const Note = mongoose.model('notes', notesSchema);
-module.exports = Note;
+const Bookmark = mongoose.model('bookmarks', bookmarksSchema);
+module.exports = Bookmark; 

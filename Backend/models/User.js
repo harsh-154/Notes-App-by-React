@@ -1,32 +1,31 @@
-const mongoose=require('mongoose');
-const validator=require('validator');
-const {Schema}=mongoose;
+const mongoose = require('mongoose');
+const validator = require('validator');
+const { Schema } = mongoose;
 const userSchema = new Schema({
-    name:{
+    name: {
         type: String,
         required: true,
         minLength: 3
     },
-    email:{
+    email: {
         type: String,
         required: true,
         unique: true,
-        validate(value){
-            if(!validator.isEmail(value)){
+        validate(value) {
+            if (!validator.isEmail(value)) {
                 throw new Error('INVALID EMAIL');
             }
         }
     },
-    password:{
+    password: {
         type: String,
         required: true,
         minLength: 8
     },
-    date:{
+    date: {
         type: Date,
         default: Date.now
     }
-  });
-const User=mongoose.model('user',userSchema);
-// User.createIndexes();
-module.exports=User;
+});
+const User = mongoose.model('user', userSchema);
+module.exports = User;
